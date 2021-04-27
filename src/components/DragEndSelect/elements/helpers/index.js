@@ -44,7 +44,7 @@ const itemsGroupedByCol = ({ items, rows }) =>
   );
 
 /**
- * Returns an array of objects.
+ * Returns an array of objects with references to column and row.
  *   [
  *     {
  *       "label": "item-1",
