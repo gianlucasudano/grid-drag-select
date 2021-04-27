@@ -1,3 +1,12 @@
+/**
+ * Returns an array of last element available for a column 
+   ie: [5,10,15,20,25]
+ *
+ * @param {array} items - array of items
+ * @param {number} rows - rows number
+ *
+ * @returns {array} - array of last element available for a column
+ */
 const chunkEndLimit = ({ items, rows }) =>
   items
     .reduce((acc, current, currentIndex, array) => {
@@ -8,7 +17,19 @@ const chunkEndLimit = ({ items, rows }) =>
     }, [])
     .filter((item) => item !== null);
 
-const itemsGroupedByChunk = ({ items, rows }) =>
+/**
+ * Returns an array of array with objects grouped by "column"
+   ie: [[{
+          label: "item-1",
+          itemOrder: 1
+        },{},...], Array(5), Array(5), Array(5), Array(5)]
+ *
+ * @param {array} items - array of items
+ * @param {number} rows - rows number
+ *
+ * @returns {array} - array of array
+ */
+const itemsGroupedByCol = ({ items, rows }) =>
   chunkEndLimit({ items, rows }).reduce(
     (acc, current, currentIndex, array) => [
       ...acc,
@@ -22,8 +43,25 @@ const itemsGroupedByChunk = ({ items, rows }) =>
     []
   );
 
+/**
+ * Returns an array of objects.
+ *   [
+ *     {
+ *       "label": "item-1",
+ *       "itemOrder": 1,
+ *       "col": 1,
+ *       "row": 1
+ *     },
+ *     ...
+ *   ]
+ *
+ * @param {array} items - array of items
+ * @param {number} rows - rows number
+ *
+ * @returns {array} - array of objects
+ */
 const itemsWithCoordinates = ({ items, rows }) =>
-  itemsGroupedByChunk({ items, rows })
+  itemsGroupedByCol({ items, rows })
     .reduce(
       (acc, current, currentIndex, array) => [
         ...acc,
@@ -40,4 +78,4 @@ const itemsWithCoordinates = ({ items, rows }) =>
     .flat();
 
 export default itemsWithCoordinates;
-export { chunkEndLimit, itemsGroupedByChunk };
+export { chunkEndLimit, itemsGroupedByCol };
