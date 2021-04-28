@@ -1,8 +1,8 @@
-import { StyledGrid } from "./DragEndSelect.styled";
+import { StyledGrid } from "./DragAndSelect.styled";
 import GridItems from "./elements/GridItems";
 import itemsWithCoordinates from "./elements/helpers";
 
-const DragEndSelect = ({ cols, items }) => {
+const DragAndSelect = ({ cols, items }) => {
   const calculatedRows = Math.round(items.length / cols);
   const adjustRowsNumber =
     calculatedRows * cols < items.length ? calculatedRows + 1 : calculatedRows;
@@ -18,4 +18,4 @@ const DragEndSelect = ({ cols, items }) => {
   );
 };
 
-export default DragEndSelect;
+export default DragAndSelect;
