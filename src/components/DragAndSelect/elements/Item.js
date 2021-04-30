@@ -1,41 +1,54 @@
 import { StyledItem } from "./Item.styled";
 import {
-  cleanUpEventData,
   setSelectedItem,
   setTimestampMouseDown,
   setTimestampMouseUp
 } from "../reducer/dragAndSelectActions";
-import { useEffect } from "react";
+import { useCallback, useRef } from "react";
+import { handleEvent, requestTimeout } from "./helpers";
 
 const Item = ({
   col,
   dispatch,
+  isSelected,
   itemOrder,
   label,
-  row,
-  isSelected,
   mappingIndex,
   mouseDownAt,
   mouseUpAt,
-  eventOnItem
+  row
 }) => {
-  useEffect(() => {
-    const timeOnPressing =
-      eventOnItem === mappingIndex ? (mouseUpAt - mouseDownAt) / 1000 : -1;
-    if (timeOnPressing >= 0) {
-      console.log("timeOnPressing", timeOnPressing);
-    }
-    if (timeOnPressing !== -1 && timeOnPressing <= 1) {
-      dispatch(setSelectedItem({ itemSelected: mappingIndex }));
-      dispatch(cleanUpEventData({ itemSelected: mappingIndex }));
-    }
-  }, [mouseUpAt, mouseDownAt, mappingIndex, eventOnItem, dispatch]);
+  const eventDetail = useRef(null);
+
+  const useMouseEvent = useCallback(
+    (mappingIndex) => (e) => {
+      return requestTimeout(
+        () =>
+          handleEvent(
+            dispatch,
+            eventDetail,
+            mappingIndex,
+            mouseDownAt,
+            mouseUpAt
+          ),
+        300,
+        () => {
+          if (e.detail === 2) {
+            eventDetail.current = e.detail;
+            return;
+          }
+          eventDetail.current = null;
+        }
+      );
+    },
+    [mouseUpAt, mouseDownAt, dispatch]
+  );
+
   return (
     <StyledItem
       // to understand if usefull on long click to pick the color
       // bgColor={isSelected ? "selectedColor" : "defaultColor"}
       onMouseDown={(e) => {
-        console.log(e);
         return dispatch(
           setTimestampMouseDown({
             eventOnItem: mappingIndex,
@@ -51,12 +64,7 @@ const Item = ({
           })
         );
       }}
-      onDoubleClick={(e) => console.log("dbclick", e.timeStamp)}
-      //onClick={() => dispatch(setSelectedItem({ itemSelected: mappingIndex }))}
-      onClick={(e) => {
-        console.log(e.type);
-        console.log(e.detail);
-      }}
+      onClick={useMouseEvent(mappingIndex)}
       col={col}
       isSelected={isSelected}
       itemOrder={itemOrder}

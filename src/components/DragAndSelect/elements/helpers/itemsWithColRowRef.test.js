@@ -1,7 +1,4 @@
-import itemsWithCoordinates, {
-  chunkEndLimit,
-  itemsGroupedByCol
-} from "./index";
+import itemsWithColRowRef, { chunkEndLimit, itemsGroupedByCol } from "./index";
 import items from "../../../../data/mocks";
 
 it("should return a valid array of last element available for a column", () => {
@@ -40,7 +37,7 @@ it("should return a valid array of array with objects grouped by 'column'", () =
 });
 
 it("should return a valid array of objects with references to column and row.", () => {
-  expect(itemsWithCoordinates({ items: items(4), rows: 2 })).toStrictEqual([
+  expect(itemsWithColRowRef({ items: items(4), rows: 2 })).toStrictEqual([
     {
       col: 1,
       itemOrder: 1,

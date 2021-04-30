@@ -9,8 +9,6 @@ export default function App() {
     <div className="App">
       <div id="div"></div>
       <DragAndSelect cols={5} items={toMap} />
-      <h1>Hello CodeSandbox</h1>
-      <h2>Start editing to see some magic happen!</h2>
     </div>
   );
 }

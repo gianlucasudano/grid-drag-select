@@ -1,7 +1,7 @@
 import { StyledGrid } from "./DragAndSelect.styled";
 import GridItems from "./elements/GridItems";
 import dragAndSelectReducer from "./reducer/dragAndSelectReducer";
-import itemsWithCoordinates from "./elements/helpers";
+import { itemsWithColRowRef } from "./elements/helpers";
 import { useReducer } from "react";
 
 const DragAndSelect = ({ cols, items }) => {
@@ -14,14 +14,14 @@ const DragAndSelect = ({ cols, items }) => {
     calculatedRows * cols < items.length ? calculatedRows + 1 : calculatedRows;
 
   const gridItemsProps = {
-    items: itemsWithCoordinates({
+    items: itemsWithColRowRef({
       items,
       rows: adjustRowsNumber
     }),
     itemsState: state,
     dispatch: dispatch
   };
-  console.log(state);
+
   return (
     <StyledGrid cols={cols} rows={adjustRowsNumber}>
       <GridItems {...gridItemsProps} />

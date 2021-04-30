@@ -3,16 +3,15 @@ const GridItems = ({ dispatch, items, itemsState }) => {
   return items.map(({ col, itemOrder, label, row }, index) => (
     <Item
       col={col}
-      mappingIndex={index}
       dispatch={dispatch}
       isSelected={itemsState[index].isSelected}
       itemOrder={itemOrder}
       key={label}
       label={label}
-      row={row}
+      mappingIndex={index}
       mouseDownAt={itemsState[`mouseDownAt${index}`]}
       mouseUpAt={itemsState[`mouseUpAt${index}`]}
-      eventOnItem={itemsState.eventOnItem}
+      row={row}
     />
   ));
 };
