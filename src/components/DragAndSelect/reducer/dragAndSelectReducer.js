@@ -19,8 +19,7 @@ const dragAndSelectReducer = (state, action) => {
         ...state,
         [`mouseDownAt${payload.eventOnItem}`]: payload[
           `mouseDownAt${payload.eventOnItem}`
-        ],
-        eventOnItem: payload.eventOnItem
+        ]
       };
     }
 
@@ -33,14 +32,6 @@ const dragAndSelectReducer = (state, action) => {
       };
     }
 
-    case dragAndSelectActionTypes.CLEAN_EVENT_DATA: {
-      return {
-        ...state,
-        [`mouseUpAt${payload.itemSelected}`]: undefined,
-        [`mouseDownAt${payload.itemSelected}`]: undefined,
-        eventOnItem: undefined
-      };
-    }
     default:
       throw new Error(
         `Action type: ${type} was not accounted for in dragAndSelectReducer`

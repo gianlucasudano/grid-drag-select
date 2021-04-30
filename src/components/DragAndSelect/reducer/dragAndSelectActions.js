@@ -1,8 +1,7 @@
 export const dragAndSelectActionTypes = {
   UPDATE_SELECTED_ITEM: "UPDATE_SELECTED_ITEM",
   UPDATE_MOUSEDOWN_TIMESTAMP: "UPDATE_MOUSEDOWN_TIMESTAMP",
-  UPDATE_MOUSEUP_TIMESTAMP: "UPDATE_MOUSEUP_TIMESTAMP",
-  CLEAN_EVENT_DATA: "CLEAN_EVENT_DATA"
+  UPDATE_MOUSEUP_TIMESTAMP: "UPDATE_MOUSEUP_TIMESTAMP"
   // RESET_FILTERS: 'RESET_FILTERS'
 };
 
@@ -23,13 +22,6 @@ export const setTimestampMouseDown = (payload) => {
 export const setTimestampMouseUp = (payload) => {
   return {
     type: dragAndSelectActionTypes.UPDATE_MOUSEUP_TIMESTAMP,
-    payload
-  };
-};
-
-export const cleanUpEventData = (payload) => {
-  return {
-    type: dragAndSelectActionTypes.CLEAN_EVENT_DATA,
     payload
   };
 };
