@@ -32,6 +32,23 @@ const dragAndSelectReducer = (state, action) => {
       };
     }
 
+    case dragAndSelectActionTypes.UPDATE_WHOLE_COLUMN: {
+      const { itemSelectedStatus, wholeColumnIndexes } = payload;
+      const selectedColumn = wholeColumnIndexes.reduce((acc, current) => {
+        const currentSelectedItem = {
+          ...state[current],
+          isSelected: itemSelectedStatus
+        };
+
+        return { ...acc, ...{ [current]: currentSelectedItem } };
+      }, []);
+
+      return {
+        ...state,
+        ...selectedColumn
+      };
+    }
+
     default:
       throw new Error(
         `Action type: ${type} was not accounted for in dragAndSelectReducer`

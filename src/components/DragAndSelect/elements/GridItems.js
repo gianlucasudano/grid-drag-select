@@ -6,6 +6,7 @@ const GridItems = ({ dispatch, items, itemsState }) => {
       dispatch={dispatch}
       isSelected={itemsState[index].isSelected}
       itemOrder={itemOrder}
+      items={items}
       key={label}
       label={label}
       mappingIndex={index}

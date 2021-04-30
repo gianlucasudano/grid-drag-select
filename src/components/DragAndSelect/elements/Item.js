@@ -1,10 +1,9 @@
+import { useCallback, useRef } from "react";
 import { StyledItem } from "./Item.styled";
 import {
-  setSelectedItem,
   setTimestampMouseDown,
   setTimestampMouseUp
 } from "../reducer/dragAndSelectActions";
-import { useCallback, useRef } from "react";
 import { handleEvent, requestTimeout } from "./helpers";
 
 const Item = ({
@@ -12,6 +11,7 @@ const Item = ({
   dispatch,
   isSelected,
   itemOrder,
+  items,
   label,
   mappingIndex,
   mouseDownAt,
@@ -21,16 +21,19 @@ const Item = ({
   const eventDetail = useRef(null);
 
   const useMouseEvent = useCallback(
-    (mappingIndex) => (e) => {
+    ({ mappingIndex, isSelected, col, items }) => (e) => {
       return requestTimeout(
         () =>
-          handleEvent(
+          handleEvent({
+            col,
             dispatch,
             eventDetail,
+            isSelected,
+            items,
             mappingIndex,
             mouseDownAt,
             mouseUpAt
-          ),
+          }),
         300,
         () => {
           if (e.detail === 2) {
@@ -64,7 +67,7 @@ const Item = ({
           })
         );
       }}
-      onClick={useMouseEvent(mappingIndex)}
+      onClick={useMouseEvent({ mappingIndex, isSelected, col, items })}
       col={col}
       isSelected={isSelected}
       itemOrder={itemOrder}
