@@ -49,6 +49,37 @@ const dragAndSelectReducer = (state, action) => {
       };
     }
 
+    case dragAndSelectActionTypes.UPDATE_STATE_WITH_API: {
+      const { items, message, apiStatus } = payload;
+      const itemsLabels = items?.map((item) => ` ${state[item].label}`) || [];
+      return {
+        ...state,
+        apiResponse: {
+          items: itemsLabels.toString(),
+          apiStatus: apiStatus,
+          message: message
+        }
+      };
+    }
+
+    case dragAndSelectActionTypes.UPDATE_STATE_ITEMS_CHANGES: {
+      const isSelectedLabel = (isSelected) =>
+        isSelected ? "selected" : "unselected";
+      const itemsChanged = payload
+        .map(
+          (item) =>
+            ` ${state[item].label} is ${isSelectedLabel(
+              state[item].isSelected
+            )}`
+        )
+        .toString();
+      return {
+        ...state,
+        itemsChanged: itemsChanged,
+        itemsChangedIndices: payload
+      };
+    }
+
     default:
       throw new Error(
         `Action type: ${type} was not accounted for in dragAndSelectReducer`

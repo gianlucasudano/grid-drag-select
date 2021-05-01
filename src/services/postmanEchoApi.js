@@ -4,21 +4,29 @@ async function postmanEchoApi({ data }, dispatch) {
   if (!data) {
     return;
   }
-  const postData = new FormData();
-  postData.append("items", data);
-  const requestOptions = {
+
+  const postData = {
     method: "POST",
-    body: postData,
-    redirect: "follow"
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+    body: JSON.stringify(data)
   };
+
   try {
     let response = await fetch(
       "https://w1mbh.sse.codesandbox.io/api/echo",
-      requestOptions
+      postData
     );
     let result = await response;
     await new Promise((resolve, reject) => setTimeout(resolve, 2000));
     const { status } = result;
+
     if (status === 405) {
       dispatch(
         setStateTroughApi({
