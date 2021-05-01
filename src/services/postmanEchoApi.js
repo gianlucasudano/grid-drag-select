@@ -24,7 +24,7 @@ async function postmanEchoApi({ data }, dispatch) {
       postData
     );
     let result = await response;
-    await new Promise((resolve, reject) => setTimeout(resolve, 2000));
+    await new Promise((resolve, reject) => setTimeout(resolve, 1000));
     const { status } = result;
 
     if (status === 405) {
