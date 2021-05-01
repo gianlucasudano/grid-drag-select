@@ -1,6 +1,7 @@
 import {
   setSelectedItem,
-  setWholeColumnState
+  setWholeColumnState,
+  setItemsChangeState
 } from "../../reducer/dragAndSelectActions";
 
 const handleEvent = ({
@@ -19,20 +20,21 @@ const handleEvent = ({
   const longClickEvent = timeOnPressing >= 1;
 
   if (clickEvent) {
-    console.log("click");
-    return dispatch(setSelectedItem({ itemSelected: mappingIndex }));
+    dispatch(setSelectedItem({ itemSelected: mappingIndex }));
+    dispatch(setItemsChangeState([mappingIndex]));
   }
-  // TODO: fired twice
+
   if (dbClickEvent) {
     const wholeColumnIndexes = items
       .filter((item, index) => item.col === col)
       .map((item) => item.itemOrder - 1);
-    return dispatch(
+    dispatch(
       setWholeColumnState({
         itemSelectedStatus: isSelected,
         wholeColumnIndexes: wholeColumnIndexes
       })
     );
+    dispatch(setItemsChangeState(wholeColumnIndexes));
   }
 
   if (longClickEvent) {

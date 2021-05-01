@@ -1,3 +1,4 @@
+import React from "react";
 import Item from "./Item";
 const GridItems = ({ dispatch, items, itemsState }) => {
   return items.map(({ col, itemOrder, label, row }, index) => (

@@ -1,7 +1,7 @@
+import React from "react";
 import "./styles.css";
 import items from "./data/mocks";
 import DragAndSelect from "./components/DragAndSelect/DragAndSelect";
-
 const toMap = items(25);
 
 export default function App() {

@@ -1,8 +1,9 @@
+import React, { useReducer } from "react";
 import { StyledGrid } from "./DragAndSelect.styled";
 import GridItems from "./elements/GridItems";
+import InfoBox from "./elements/InfoBox";
 import dragAndSelectReducer from "./reducer/dragAndSelectReducer";
 import { itemsWithColRowRef } from "./elements/helpers";
-import { useReducer } from "react";
 
 const DragAndSelect = ({ cols, items }) => {
   const initialState = items.map((item) => {
@@ -23,9 +24,12 @@ const DragAndSelect = ({ cols, items }) => {
   };
 
   return (
-    <StyledGrid cols={cols} rows={adjustRowsNumber}>
-      <GridItems {...gridItemsProps} />
-    </StyledGrid>
+    <>
+      <StyledGrid cols={cols} rows={adjustRowsNumber}>
+        <GridItems {...gridItemsProps} />
+      </StyledGrid>
+      {state.itemsChanged && <InfoBox itemsState={state} dispatch={dispatch} />}
+    </>
   );
 };
 

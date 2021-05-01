@@ -1,10 +1,11 @@
-import { useCallback, useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import { StyledItem } from "./Item.styled";
 import {
   setTimestampMouseDown,
   setTimestampMouseUp
 } from "../reducer/dragAndSelectActions";
-import { handleEvent, requestTimeout } from "./helpers";
+import { handleEvent } from "./helpers";
+import { requestTimeout } from "../../../utilities";
 
 const Item = ({
   col,
