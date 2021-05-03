@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import { StyledItem } from "./Item.styled";
+import { setFocusOnLongClickSelecting } from "../reducer/dragAndSelectActions";
 import {
-  setFocusOnLongClickSelecting,
-  setItemsChangeState,
-  setStartLongClickEvent,
-  setStateOnEndLongClick
-} from "../reducer/dragAndSelectActions";
-import { handleClickDbClickEvents, onSelectingItems } from "./helpers";
-import { requestTimeout } from "../../../utilities";
+  handleClick,
+  handleMouseDown,
+  handleMouseMove,
+  handleMouseUp,
+  onSelectingItems
+} from "./helpers";
 
 const Item = ({
   col,
@@ -29,42 +29,6 @@ const Item = ({
   const mouseUpRef = useRef(null);
   const mouseDownRef = useRef(null);
 
-  const useClickMouseEvent = useCallback(
-    ({
-      col,
-      dispatch,
-      eventDetail,
-      isSelected,
-      items,
-      mappingIndex,
-      mouseDownRef,
-      mouseUpRef
-    }) => (e) => {
-      return requestTimeout(
-        () =>
-          handleClickDbClickEvents({
-            col,
-            dispatch,
-            eventDetail,
-            isSelected,
-            items,
-            mappingIndex,
-            mouseDownRef,
-            mouseUpRef
-          }),
-        300,
-        () => {
-          if (e.detail === 2) {
-            eventDetail.current = e.detail;
-            return;
-          }
-          eventDetail.current = null;
-        }
-      );
-    },
-    []
-  );
-
   useEffect(() => {
     if (selectingEventStarted) {
       const focusItems = onSelectingItems({
@@ -85,64 +49,51 @@ const Item = ({
 
   return (
     <StyledItem
-      onMouseDown={(e) => {
-        mouseDownRef.current = e.timeStamp;
-
-        requestTimeout(
-          () => {
-            if (!mouseUpRef.current && mouseDownRef.current) {
-              dispatch(
-                setStartLongClickEvent({
-                  started: true,
-                  firstSelected: mappingIndex,
-                  latestSelected: mappingIndex
-                })
-              );
-            }
-          },
-          1200,
-          () => {}
-        );
-      }}
-      onMouseUp={(e) => {
-        mouseUpRef.current = e.timeStamp;
-
-        if (selectingEventStarted) {
-          dispatch(setStateOnEndLongClick(focusedItems.current));
-          dispatch(setItemsChangeState(focusedItems.current));
-          dispatch(
-            setStartLongClickEvent({
-              started: false,
-              firstSelected: selectingEventFirstItem,
-              latestSelected: mappingIndex
-            })
-          );
-          isLongClick.current = false;
-          mouseDownRef.current = null;
-          mouseUpRef.current = null;
-        }
-      }}
-      onClick={useClickMouseEvent({
-        col,
-        dispatch,
-        eventDetail,
-        isSelected,
-        items,
-        mappingIndex,
-        mouseDownRef,
-        mouseUpRef
-      })}
-      onMouseMove={() => {
-        if (selectingEventStarted) {
-          dispatch(
-            setStartLongClickEvent({
-              started: selectingEventStarted,
-              firstSelected: selectingEventFirstItem,
-              latestSelected: mappingIndex
-            })
-          );
-        }
-      }}
+      onMouseDown={useCallback(
+        (e) =>
+          handleMouseDown({ mouseUpRef, mouseDownRef, dispatch, mappingIndex })(
+            e
+          ),
+        [dispatch, mappingIndex]
+      )}
+      onMouseUp={useCallback(
+        (e) =>
+          handleMouseUp({
+            dispatch,
+            focusedItems,
+            isLongClick,
+            mappingIndex,
+            mouseDownRef,
+            mouseUpRef,
+            selectingEventFirstItem,
+            selectingEventStarted
+          })(e),
+        [dispatch, mappingIndex, selectingEventFirstItem, selectingEventStarted]
+      )}
+      onClick={useCallback(
+        (e) =>
+          handleClick({
+            col,
+            dispatch,
+            eventDetail,
+            isSelected,
+            items,
+            mappingIndex,
+            mouseDownRef,
+            mouseUpRef
+          })(e),
+        [col, dispatch, items, isSelected, mappingIndex]
+      )}
+      onMouseMove={useCallback(
+        () =>
+          handleMouseMove({
+            dispatch,
+            mappingIndex,
+            selectingEventFirstItem,
+            selectingEventStarted
+          }),
+        [dispatch, mappingIndex, selectingEventFirstItem, selectingEventStarted]
+      )}
       col={col}
       isSelected={isSelected}
       isSelecting={onSelecting}
