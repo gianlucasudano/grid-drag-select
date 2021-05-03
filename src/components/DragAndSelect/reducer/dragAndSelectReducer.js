@@ -15,15 +15,6 @@ const dragAndSelectReducer = (state, action) => {
       };
     }
 
-    case dragAndSelectActionTypes.UPDATE_MOUSEUP_TIMESTAMP: {
-      return {
-        ...state,
-        [`mouseUpAt${payload.eventOnItem}`]: payload[
-          `mouseUpAt${payload.eventOnItem}`
-        ]
-      };
-    }
-
     case dragAndSelectActionTypes.UPDATE_WHOLE_COLUMN: {
       const { itemSelectedStatus, wholeColumnIndexes } = payload;
       const selectedColumn = wholeColumnIndexes.reduce((acc, current) => {

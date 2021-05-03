@@ -4,8 +4,7 @@ import {
   setFocusOnLongClickSelecting,
   setItemsChangeState,
   setStartLongClickEvent,
-  setStateOnEndLongClick,
-  setTimestampMouseUp
+  setStateOnEndLongClick
 } from "../reducer/dragAndSelectActions";
 import { handleClickDbClickEvents, onSelectingItems } from "./helpers";
 import { requestTimeout } from "../../../utilities";
@@ -88,6 +87,7 @@ const Item = ({
     <StyledItem
       onMouseDown={(e) => {
         mouseDownRef.current = e.timeStamp;
+
         requestTimeout(
           () => {
             if (!mouseUpRef.current && mouseDownRef.current) {
@@ -103,21 +103,9 @@ const Item = ({
           1200,
           () => {}
         );
-        // dispatch(
-        //   setTimestampMouseDown({
-        //     eventOnItem: mappingIndex,
-        //     [`mouseDownAt${mappingIndex}`]: e.timeStamp
-        //   })
-        // );
       }}
       onMouseUp={(e) => {
         mouseUpRef.current = e.timeStamp;
-        // dispatch(
-        //   setTimestampMouseUp({
-        //     eventOnItem: mappingIndex,
-        //     [`mouseUpAt${mappingIndex}`]: e.timeStamp
-        //   })
-        // );
 
         if (selectingEventStarted) {
           dispatch(setStateOnEndLongClick(focusedItems.current));
