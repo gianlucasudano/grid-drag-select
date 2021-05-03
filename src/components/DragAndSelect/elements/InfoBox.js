@@ -1,14 +1,23 @@
+import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { StyledInfoBox, StyledLabel } from "./InfoBox.styled";
 import postmanEchoApi from "../../../services/postmanEchoApi";
 
+/**
+ * Render a box with items and api status
+ *
+ * @param {object} props
+ * @param {array} props.itemsState - items state
+ * @param {dispatch} props.dispatch - dispatch from reducer
+ *
+ * @returns {React.Component}
+ */
 const InfoBox = ({ itemsState, dispatch }) => {
   const { itemsChangedIndices, itemsChanged, apiResponse = {} } = itemsState;
   const { items, apiStatus, message } = apiResponse;
 
   useEffect(() => {
     postmanEchoApi({ data: itemsChangedIndices }, dispatch);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, itemsChangedIndices]);
 
   return (
@@ -27,6 +36,19 @@ const InfoBox = ({ itemsState, dispatch }) => {
       </div>
     </StyledInfoBox>
   );
+};
+
+InfoBox.propTypes = {
+  dispatch: PropTypes.func,
+  itemsState: PropTypes.shape({
+    apiResponse: PropTypes.shape({
+      apiStatus: PropTypes.number,
+      items: PropTypes.string,
+      message: PropTypes.string
+    }),
+    itemsChanged: PropTypes.string,
+    itemsChangedIndices: PropTypes.array
+  })
 };
 
 export default InfoBox;
