@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import { StyledItem } from "./Item.styled";
 import {
-  cleanUpEventData,
   setFocusOnLongClickSelecting,
   setItemsChangeState,
   setStartLongClickEvent,

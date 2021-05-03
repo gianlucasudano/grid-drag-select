@@ -7,9 +7,7 @@ export const dragAndSelectActionTypes = {
   UPDATE_STATE_ITEMS_CHANGES: "UPDATE_STATE_ITEMS_CHANGES",
   UPDATE_LONG_CLICK_SELECTION: "UPDATE_LONG_CLICK_SELECTION",
   UPDATE_FOCUS_LONG_CLICK_SELECTION: "UPDATE_FOCUS_LONG_CLICK_SELECTION",
-  UPDATE_STATE_LONG_CLICK_SELECTION: "UPDATE_STATE_LONG_CLICK_SELECTION",
-  CLEAN_EVENT_DATA: "CLEAN_EVENT_DATA"
-  // RESET_FILTERS: 'RESET_FILTERS'
+  UPDATE_STATE_LONG_CLICK_SELECTION: "UPDATE_STATE_LONG_CLICK_SELECTION"
 };
 
 export const setSelectedItem = (payload) => {
@@ -50,13 +48,6 @@ export const setStateTroughApi = (payload) => {
 export const setItemsChangeState = (payload) => {
   return {
     type: dragAndSelectActionTypes.UPDATE_STATE_ITEMS_CHANGES,
-    payload
-  };
-};
-
-export const cleanUpEventData = (payload) => {
-  return {
-    type: dragAndSelectActionTypes.CLEAN_EVENT_DATA,
     payload
   };
 };

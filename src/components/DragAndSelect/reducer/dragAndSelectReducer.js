@@ -80,15 +80,6 @@ const dragAndSelectReducer = (state, action) => {
       };
     }
 
-    case dragAndSelectActionTypes.CLEAN_EVENT_DATA: {
-      return {
-        ...state,
-        [`mouseUpAt${payload.itemSelected}`]: undefined,
-        [`mouseDownAt${payload.itemSelected}`]: undefined,
-        eventOnItem: undefined
-      };
-    }
-
     case dragAndSelectActionTypes.UPDATE_LONG_CLICK_SELECTION: {
       const { started, firstSelected, latestSelected } = payload;
       return {
