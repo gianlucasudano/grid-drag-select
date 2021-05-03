@@ -80,6 +80,58 @@ const dragAndSelectReducer = (state, action) => {
       };
     }
 
+    case dragAndSelectActionTypes.CLEAN_EVENT_DATA: {
+      return {
+        ...state,
+        [`mouseUpAt${payload.itemSelected}`]: undefined,
+        [`mouseDownAt${payload.itemSelected}`]: undefined,
+        eventOnItem: undefined
+      };
+    }
+
+    case dragAndSelectActionTypes.UPDATE_LONG_CLICK_SELECTION: {
+      const { started, firstSelected, latestSelected } = payload;
+      return {
+        ...state,
+        selectingEventStarted: started,
+        selectingEventFirstItem: firstSelected,
+        selectingEventLatestItem: latestSelected
+      };
+    }
+
+    case dragAndSelectActionTypes.UPDATE_FOCUS_LONG_CLICK_SELECTION: {
+      const itemsToSet = payload.reduce((acc, current) => {
+        const currentSelectedItem = {
+          ...state[current],
+          onSelecting: true
+        };
+
+        return { ...acc, ...{ [current]: currentSelectedItem } };
+      }, []);
+
+      return {
+        ...state,
+        ...itemsToSet
+      };
+    }
+
+    case dragAndSelectActionTypes.UPDATE_STATE_LONG_CLICK_SELECTION: {
+      const itemsToSet = payload.reduce((acc, current) => {
+        const currentSelectedItem = {
+          ...state[current],
+          onSelecting: false,
+          isSelected: state[state.selectingEventFirstItem].isSelected
+        };
+
+        return { ...acc, ...{ [current]: currentSelectedItem } };
+      }, []);
+
+      return {
+        ...state,
+        ...itemsToSet
+      };
+    }
+
     default:
       throw new Error(
         `Action type: ${type} was not accounted for in dragAndSelectReducer`

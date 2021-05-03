@@ -6,6 +6,7 @@ const GridItems = ({ dispatch, items, itemsState }) => {
       col={col}
       dispatch={dispatch}
       isSelected={itemsState[index].isSelected}
+      onSelecting={itemsState[index].onSelecting}
       itemOrder={itemOrder}
       items={items}
       key={label}
@@ -14,6 +15,9 @@ const GridItems = ({ dispatch, items, itemsState }) => {
       mouseDownAt={itemsState[`mouseDownAt${index}`]}
       mouseUpAt={itemsState[`mouseUpAt${index}`]}
       row={row}
+      selectingEventStarted={itemsState.selectingEventStarted}
+      selectingEventFirstItem={itemsState.selectingEventFirstItem}
+      selectingEventLatestItem={itemsState.selectingEventLatestItem}
     />
   ));
 };

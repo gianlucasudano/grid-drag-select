@@ -6,6 +6,8 @@ export const StyledItem = styled.div`
   border: 1px solid #000;
   // TODO: color from theme
   background-color: ${(props) => (props.isSelected ? "red" : "green")};
+  opacity: ${(props) => (props.isSelecting ? 0.8 : 1)};
+  user-select: none;
 `;
 
 export const StyledGrid = styled.div`

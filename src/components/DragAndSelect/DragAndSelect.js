@@ -7,7 +7,7 @@ import { itemsWithColRowRef } from "./elements/helpers";
 
 const DragAndSelect = ({ cols, items }) => {
   const initialState = items.map((item) => {
-    return { ...item, isSelected: false };
+    return { ...item, isSelected: false, onSelecting: false };
   });
   const [state, dispatch] = useReducer(dragAndSelectReducer, initialState);
   const calculatedRows = Math.round(items.length / cols);
@@ -22,7 +22,7 @@ const DragAndSelect = ({ cols, items }) => {
     itemsState: state,
     dispatch: dispatch
   };
-
+  // console.log(state);
   return (
     <>
       <StyledGrid cols={cols} rows={adjustRowsNumber}>

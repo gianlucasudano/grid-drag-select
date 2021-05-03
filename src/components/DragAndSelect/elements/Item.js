@@ -1,6 +1,11 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { StyledItem } from "./Item.styled";
 import {
+  cleanUpEventData,
+  setFocusOnLongClickSelecting,
+  setItemsChangeState,
+  setStartLongClickEvent,
+  setStateOnEndLongClick,
   setTimestampMouseDown,
   setTimestampMouseUp
 } from "../reducer/dragAndSelectActions";
@@ -17,12 +22,83 @@ const Item = ({
   mappingIndex,
   mouseDownAt,
   mouseUpAt,
-  row
+  onSelecting,
+  row,
+  selectingEventFirstItem,
+  selectingEventLatestItem,
+  selectingEventStarted
 }) => {
   const eventDetail = useRef(null);
+  const isLongClick = useRef(null);
+  const focusedItems = useRef(null);
+  const mouseUpRef = useRef(null);
+  const mouseDownRef = useRef(null);
 
-  const useMouseEvent = useCallback(
-    ({ mappingIndex, isSelected, col, items }) => (e) => {
+  const onSelectingItems = ({
+    selectingEventFirstItem,
+    selectingEventLatestItem,
+    items
+  }) => {
+    const firstSelection = items[selectingEventFirstItem];
+    const lastSelection = items[selectingEventLatestItem];
+    const isAscending = firstSelection?.itemOrder < lastSelection?.itemOrder;
+
+    const filteringItems = items?.reduce(
+      (acc, current, currentIndex, array) => {
+        // left right up down
+        const ascendingConditions =
+          isAscending &&
+          current.col >= firstSelection.col &&
+          current.col <= lastSelection.col &&
+          current.row >= firstSelection.row &&
+          current.row <= lastSelection.row;
+        // right left down up
+        const descendingConditions =
+          !isAscending &&
+          current.col <= firstSelection.col &&
+          current.col >= lastSelection.col &&
+          current.row <= firstSelection.row &&
+          current.row >= lastSelection.row;
+        // left right down up
+        const leftUpAscendingConditions =
+          isAscending &&
+          current.col >= firstSelection.col &&
+          current.col <= lastSelection.col &&
+          current.row <= firstSelection.row &&
+          current.row >= lastSelection.row;
+        // left right down up
+        const rightUpAscendingConditions =
+          !isAscending &&
+          current.col <= firstSelection.col &&
+          current.col >= lastSelection.col &&
+          current.row >= firstSelection.row &&
+          current.row <= lastSelection.row;
+
+        const selectedIndex =
+          ascendingConditions ||
+          descendingConditions ||
+          leftUpAscendingConditions ||
+          rightUpAscendingConditions
+            ? currentIndex
+            : null;
+
+        return [...acc, selectedIndex];
+      },
+      []
+    );
+    return filteringItems.filter((item) => item !== null);
+  };
+
+  const useClickMouseEvent = useCallback(
+    ({
+      col,
+      isSelected,
+      items,
+      longClickStarted,
+      mappingIndex,
+      mouseDownRef,
+      mouseUpRef
+    }) => (e) => {
       return requestTimeout(
         () =>
           handleEvent({
@@ -31,9 +107,12 @@ const Item = ({
             eventDetail,
             isSelected,
             items,
+            longClickStarted,
             mappingIndex,
             mouseDownAt,
-            mouseUpAt
+            mouseDownRef,
+            mouseUpAt,
+            mouseUpRef
           }),
         300,
         () => {
@@ -48,12 +127,44 @@ const Item = ({
     [mouseUpAt, mouseDownAt, dispatch]
   );
 
+  useEffect(() => {
+    if (selectingEventStarted) {
+      const focusItems = onSelectingItems({
+        selectingEventFirstItem,
+        selectingEventLatestItem,
+        items
+      });
+      focusedItems.current = focusItems;
+      dispatch(setFocusOnLongClickSelecting(focusItems));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    dispatch,
+    selectingEventFirstItem,
+    selectingEventLatestItem,
+    selectingEventStarted
+  ]);
+
   return (
     <StyledItem
-      // to understand if usefull on long click to pick the color
-      // bgColor={isSelected ? "selectedColor" : "defaultColor"}
       onMouseDown={(e) => {
-        return dispatch(
+        mouseDownRef.current = e.timeStamp;
+        requestTimeout(
+          () => {
+            if (!mouseUpRef.current && mouseDownRef.current) {
+              dispatch(
+                setStartLongClickEvent({
+                  started: true,
+                  firstSelected: mappingIndex,
+                  latestSelected: mappingIndex
+                })
+              );
+            }
+          },
+          1200,
+          () => {}
+        );
+        dispatch(
           setTimestampMouseDown({
             eventOnItem: mappingIndex,
             [`mouseDownAt${mappingIndex}`]: e.timeStamp
@@ -61,16 +172,52 @@ const Item = ({
         );
       }}
       onMouseUp={(e) => {
-        return dispatch(
+        mouseUpRef.current = e.timeStamp;
+        dispatch(
           setTimestampMouseUp({
             eventOnItem: mappingIndex,
             [`mouseUpAt${mappingIndex}`]: e.timeStamp
           })
         );
+
+        if (selectingEventStarted) {
+          dispatch(setStateOnEndLongClick(focusedItems.current));
+          dispatch(setItemsChangeState(focusedItems.current));
+          dispatch(
+            setStartLongClickEvent({
+              started: false,
+              firstSelected: selectingEventFirstItem,
+              latestSelected: mappingIndex
+            })
+          );
+          isLongClick.current = false;
+          mouseDownRef.current = null;
+          mouseUpRef.current = null;
+        }
       }}
-      onClick={useMouseEvent({ mappingIndex, isSelected, col, items })}
+      onClick={useClickMouseEvent({
+        col,
+        isSelected,
+        items,
+        longClickStarted: isLongClick.current,
+        mappingIndex,
+        mouseDownRef,
+        mouseUpRef
+      })}
+      onMouseMove={() => {
+        if (selectingEventStarted) {
+          dispatch(
+            setStartLongClickEvent({
+              started: selectingEventStarted,
+              firstSelected: selectingEventFirstItem,
+              latestSelected: mappingIndex
+            })
+          );
+        }
+      }}
       col={col}
       isSelected={isSelected}
+      isSelecting={onSelecting}
       itemOrder={itemOrder}
       row={row}
     >

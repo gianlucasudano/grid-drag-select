@@ -10,14 +10,23 @@ const handleEvent = ({
   eventDetail,
   isSelected,
   items,
+  longClickStarted,
   mappingIndex,
   mouseDownAt,
-  mouseUpAt
+  mouseDownRef,
+  mouseUpAt,
+  mouseUpRef
 }) => {
-  const timeOnPressing = (mouseUpAt - mouseDownAt) / 1000 || -1;
-  const clickEvent = !eventDetail.current && timeOnPressing < 1;
+  console.log("longClickStarted", longClickStarted);
+  // console.log("new date ", new Date().getTime());
+
+  // const timeOnPressing = (mouseUpAt - mouseDownAt) / 1000 || -1;
+  const clickEvent = !eventDetail.current;
   const dbClickEvent = eventDetail.current === 2;
-  const longClickEvent = timeOnPressing >= 1;
+  // const longClickEvent = longClickStarted;
+
+  mouseDownRef.current = null;
+  mouseUpRef.current = null;
 
   if (clickEvent) {
     dispatch(setSelectedItem({ itemSelected: mappingIndex }));
@@ -37,9 +46,9 @@ const handleEvent = ({
     dispatch(setItemsChangeState(wholeColumnIndexes));
   }
 
-  if (longClickEvent) {
-    console.log("long click");
-  }
+  // if (longClickEvent) {
+  //   console.log("long click started");
+  // }
 };
 
 export default handleEvent;

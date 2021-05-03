@@ -47,13 +47,14 @@ async function postmanEchoApi({ data }, dispatch) {
       );
     }
   } catch (err) {
-    dispatch(
-      setStateTroughApi({
-        items: [],
-        apiStatus: err,
-        message: "somenthing whent wrong!"
-      })
-    );
+    console.log(err);
+    // dispatch(
+    //   setStateTroughApi({
+    //     items: [],
+    //     apiStatus: err,
+    //     message: "somenthing whent wrong!"
+    //   })
+    // );
   }
 }
 export default postmanEchoApi;
