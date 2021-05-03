@@ -9,7 +9,7 @@ import {
   setTimestampMouseDown,
   setTimestampMouseUp
 } from "../reducer/dragAndSelectActions";
-import { handleEvent } from "./helpers";
+import { handleClickDbClickEvents } from "./helpers";
 import { requestTimeout } from "../../../utilities";
 
 const Item = ({
@@ -92,26 +92,24 @@ const Item = ({
   const useClickMouseEvent = useCallback(
     ({
       col,
+      dispatch,
+      eventDetail,
       isSelected,
       items,
-      longClickStarted,
       mappingIndex,
       mouseDownRef,
       mouseUpRef
     }) => (e) => {
       return requestTimeout(
         () =>
-          handleEvent({
+          handleClickDbClickEvents({
             col,
             dispatch,
             eventDetail,
             isSelected,
             items,
-            longClickStarted,
             mappingIndex,
-            mouseDownAt,
             mouseDownRef,
-            mouseUpAt,
             mouseUpRef
           }),
         300,
@@ -124,7 +122,7 @@ const Item = ({
         }
       );
     },
-    [mouseUpAt, mouseDownAt, dispatch]
+    []
   );
 
   useEffect(() => {
@@ -197,9 +195,10 @@ const Item = ({
       }}
       onClick={useClickMouseEvent({
         col,
+        dispatch,
+        eventDetail,
         isSelected,
         items,
-        longClickStarted: isLongClick.current,
         mappingIndex,
         mouseDownRef,
         mouseUpRef

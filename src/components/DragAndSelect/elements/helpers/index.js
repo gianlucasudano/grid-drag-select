@@ -1,4 +1,4 @@
-import handleEvent from "./handleEvent";
+import handleClickDbClickEvents from "./handleClickDbClickEvents";
 import itemsWithColRowRef from "./itemsWithColRowRef";
 
-export { handleEvent, itemsWithColRowRef };
+export { handleClickDbClickEvents, itemsWithColRowRef };

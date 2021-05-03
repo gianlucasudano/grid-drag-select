@@ -4,26 +4,18 @@ import {
   setItemsChangeState
 } from "../../reducer/dragAndSelectActions";
 
-const handleEvent = ({
+const handleClickDbClickEvents = ({
   col,
   dispatch,
   eventDetail,
   isSelected,
   items,
-  longClickStarted,
   mappingIndex,
-  mouseDownAt,
   mouseDownRef,
-  mouseUpAt,
   mouseUpRef
 }) => {
-  console.log("longClickStarted", longClickStarted);
-  // console.log("new date ", new Date().getTime());
-
-  // const timeOnPressing = (mouseUpAt - mouseDownAt) / 1000 || -1;
   const clickEvent = !eventDetail.current;
   const dbClickEvent = eventDetail.current === 2;
-  // const longClickEvent = longClickStarted;
 
   mouseDownRef.current = null;
   mouseUpRef.current = null;
@@ -45,10 +37,6 @@ const handleEvent = ({
     );
     dispatch(setItemsChangeState(wholeColumnIndexes));
   }
-
-  // if (longClickEvent) {
-  //   console.log("long click started");
-  // }
 };
 
-export default handleEvent;
+export default handleClickDbClickEvents;
