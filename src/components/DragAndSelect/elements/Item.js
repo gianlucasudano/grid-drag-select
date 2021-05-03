@@ -11,6 +11,8 @@ import {
 } from "./helpers";
 
 /**
+ * Render a single cell in the grid component
+ *
  * @param  {object} props - react props
  * @param  {number} props.col - column number
  * @param  {function} props.dispatch - dispatch from reducer
@@ -23,6 +25,8 @@ import {
  * @param  {number} props.selectingEventFirstItem - index of first selected item
  * @param  {number} props.selectingEventLatestItem - index of latest selected item
  * @param  {boolean} props.selectingEventStarted - determine if a "long selection" started
+ *
+ * @returns {React.Component} - render a single cell on the grid
  */
 const Item = ({
   col,
@@ -32,7 +36,6 @@ const Item = ({
   label,
   mappingIndex,
   onSelecting,
-  row,
   selectingEventFirstItem,
   selectingEventLatestItem,
   selectingEventStarted
@@ -108,10 +111,8 @@ const Item = ({
           }),
         [dispatch, mappingIndex, selectingEventFirstItem, selectingEventStarted]
       )}
-      col={col}
       isSelected={isSelected}
       isSelecting={onSelecting}
-      row={row}
     >
       {label}
     </StyledItem>
@@ -127,7 +128,6 @@ Item.propTypes = {
   label: PropTypes.string,
   mappingIndex: PropTypes.number,
   onSelecting: PropTypes.bool,
-  row: PropTypes.number,
   selectingEventFirstItem: PropTypes.number,
   selectingEventLatestItem: PropTypes.number,
   selectingEventStarted: PropTypes.bool
