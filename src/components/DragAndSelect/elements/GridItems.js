@@ -12,8 +12,6 @@ const GridItems = ({ dispatch, items, itemsState }) => {
       key={label}
       label={label}
       mappingIndex={index}
-      mouseDownAt={itemsState[`mouseDownAt${index}`]}
-      mouseUpAt={itemsState[`mouseUpAt${index}`]}
       row={row}
       selectingEventStarted={itemsState.selectingEventStarted}
       selectingEventFirstItem={itemsState.selectingEventFirstItem}

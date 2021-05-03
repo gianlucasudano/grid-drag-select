@@ -9,7 +9,7 @@ import {
   setTimestampMouseDown,
   setTimestampMouseUp
 } from "../reducer/dragAndSelectActions";
-import { handleClickDbClickEvents } from "./helpers";
+import { handleClickDbClickEvents, onSelectingItems } from "./helpers";
 import { requestTimeout } from "../../../utilities";
 
 const Item = ({
@@ -20,8 +20,6 @@ const Item = ({
   items,
   label,
   mappingIndex,
-  mouseDownAt,
-  mouseUpAt,
   onSelecting,
   row,
   selectingEventFirstItem,
@@ -33,61 +31,6 @@ const Item = ({
   const focusedItems = useRef(null);
   const mouseUpRef = useRef(null);
   const mouseDownRef = useRef(null);
-
-  const onSelectingItems = ({
-    selectingEventFirstItem,
-    selectingEventLatestItem,
-    items
-  }) => {
-    const firstSelection = items[selectingEventFirstItem];
-    const lastSelection = items[selectingEventLatestItem];
-    const isAscending = firstSelection?.itemOrder < lastSelection?.itemOrder;
-
-    const filteringItems = items?.reduce(
-      (acc, current, currentIndex, array) => {
-        // left right up down
-        const ascendingConditions =
-          isAscending &&
-          current.col >= firstSelection.col &&
-          current.col <= lastSelection.col &&
-          current.row >= firstSelection.row &&
-          current.row <= lastSelection.row;
-        // right left down up
-        const descendingConditions =
-          !isAscending &&
-          current.col <= firstSelection.col &&
-          current.col >= lastSelection.col &&
-          current.row <= firstSelection.row &&
-          current.row >= lastSelection.row;
-        // left right down up
-        const leftUpAscendingConditions =
-          isAscending &&
-          current.col >= firstSelection.col &&
-          current.col <= lastSelection.col &&
-          current.row <= firstSelection.row &&
-          current.row >= lastSelection.row;
-        // left right down up
-        const rightUpAscendingConditions =
-          !isAscending &&
-          current.col <= firstSelection.col &&
-          current.col >= lastSelection.col &&
-          current.row >= firstSelection.row &&
-          current.row <= lastSelection.row;
-
-        const selectedIndex =
-          ascendingConditions ||
-          descendingConditions ||
-          leftUpAscendingConditions ||
-          rightUpAscendingConditions
-            ? currentIndex
-            : null;
-
-        return [...acc, selectedIndex];
-      },
-      []
-    );
-    return filteringItems.filter((item) => item !== null);
-  };
 
   const useClickMouseEvent = useCallback(
     ({
@@ -162,21 +105,21 @@ const Item = ({
           1200,
           () => {}
         );
-        dispatch(
-          setTimestampMouseDown({
-            eventOnItem: mappingIndex,
-            [`mouseDownAt${mappingIndex}`]: e.timeStamp
-          })
-        );
+        // dispatch(
+        //   setTimestampMouseDown({
+        //     eventOnItem: mappingIndex,
+        //     [`mouseDownAt${mappingIndex}`]: e.timeStamp
+        //   })
+        // );
       }}
       onMouseUp={(e) => {
         mouseUpRef.current = e.timeStamp;
-        dispatch(
-          setTimestampMouseUp({
-            eventOnItem: mappingIndex,
-            [`mouseUpAt${mappingIndex}`]: e.timeStamp
-          })
-        );
+        // dispatch(
+        //   setTimestampMouseUp({
+        //     eventOnItem: mappingIndex,
+        //     [`mouseUpAt${mappingIndex}`]: e.timeStamp
+        //   })
+        // );
 
         if (selectingEventStarted) {
           dispatch(setStateOnEndLongClick(focusedItems.current));
