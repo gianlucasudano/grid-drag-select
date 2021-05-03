@@ -5,7 +5,6 @@ import {
   setItemsChangeState,
   setStartLongClickEvent,
   setStateOnEndLongClick,
-  setTimestampMouseDown,
   setTimestampMouseUp
 } from "../reducer/dragAndSelectActions";
 import { handleClickDbClickEvents, onSelectingItems } from "./helpers";

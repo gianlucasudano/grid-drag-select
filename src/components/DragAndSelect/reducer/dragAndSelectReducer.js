@@ -14,14 +14,6 @@ const dragAndSelectReducer = (state, action) => {
         ...{ [payload.itemSelected]: itemToSet }
       };
     }
-    case dragAndSelectActionTypes.UPDATE_MOUSEDOWN_TIMESTAMP: {
-      return {
-        ...state,
-        [`mouseDownAt${payload.eventOnItem}`]: payload[
-          `mouseDownAt${payload.eventOnItem}`
-        ]
-      };
-    }
 
     case dragAndSelectActionTypes.UPDATE_MOUSEUP_TIMESTAMP: {
       return {
