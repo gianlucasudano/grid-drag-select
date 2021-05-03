@@ -1,7 +1,17 @@
+/**
+ * Determine wich items are involved on "long selection"
+ *
+ * @param {objet} params
+ * @param {array} params.items - all items in the grid
+ * @param {number} params.selectingEventFirstItem - index of first item selected
+ * @param {number} params.selectingEventLatestItem - index of latest item selected
+ *
+ * @returns {array} - returns a filtered array of items index
+ */
 const onSelectingItems = ({
+  items,
   selectingEventFirstItem,
-  selectingEventLatestItem,
-  items
+  selectingEventLatestItem
 }) => {
   const firstSelection = items[selectingEventFirstItem];
   const lastSelection = items[selectingEventLatestItem];

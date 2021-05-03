@@ -4,6 +4,21 @@ import {
   setStateOnEndLongClick
 } from "../../reducer/dragAndSelectActions";
 
+/**
+ * Set the state required for mouse up event
+ *
+ * @param {object} params
+ * @param {function} params.dispatch - reducer dispatch
+ * @param {array} params.focusedItems - indices of focused items
+ * @param {object} params.isLongClick - isLongClick ref
+ * @param {number} params.mappingIndex - the index from map
+ * @param {object} params.mouseDownRef - mouseDownRef
+ * @param {object} params.mouseUpRef - mouseUpRef
+ * @param {number} params.selectingEventFirstItem - the index of first item on "long selecting"
+ * @param {boolean} params.selectingEventStarted - determine if a "long selection" started
+ *
+ * @returns {void} - execute the required dispatch for each case
+ */
 const handleMouseUp = ({
   dispatch,
   focusedItems,
