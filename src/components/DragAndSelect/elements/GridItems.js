@@ -40,9 +40,9 @@ GridItems.propTypes = {
   ),
   itemsState: PropTypes.arrayOf(
     PropTypes.shape({
-      selectingEventFirstItem: PropTypes.any,
-      selectingEventLatestItem: PropTypes.any,
-      selectingEventStarted: PropTypes.any
+      selectingEventStarted: PropTypes.bool,
+      selectingEventFirstItem: PropTypes.number,
+      selectingEventLatestItem: PropTypes.number
     })
   )
 };
