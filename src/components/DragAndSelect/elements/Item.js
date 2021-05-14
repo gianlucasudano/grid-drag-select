@@ -113,6 +113,9 @@ const Item = ({
       )}
       isSelected={isSelected}
       isSelecting={onSelecting}
+      border={1}
+      borderColor="grey.500"
+      borderRadius="borderRadius"
     >
       {label}
     </StyledItem>
