@@ -37,7 +37,7 @@ const handleClick = ({
         mouseDownRef,
         mouseUpRef
       }),
-    300,
+    250,
     () => {
       if (e.detail === 2) {
         eventDetail.current = e.detail;
