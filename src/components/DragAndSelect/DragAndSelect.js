@@ -22,9 +22,16 @@ import { itemsWithColRowRef } from "./elements/helpers";
  * @returns {React.Component}
  */
 const DragAndSelect = ({ cols, items }) => {
-  const initialState = items.map((item) => {
-    return { ...item, isSelected: false, onSelecting: false };
-  });
+  const initialState = items.reduce((acc, current, index) => {
+    const accItem = {
+      ...current,
+      isSelected: false,
+      onSelecting: false
+    };
+    acc[index] = accItem;
+    return acc;
+  }, {});
+
   const [state, dispatch] = useReducer(dragAndSelectReducer, initialState);
   const calculatedRows = Math.round(items.length / cols);
   const adjustRowsNumber =

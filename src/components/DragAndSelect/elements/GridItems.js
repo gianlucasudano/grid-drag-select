@@ -7,7 +7,7 @@ import Item from "./Item";
  *
  * @param  {func} dispatch - reducer dispatch
  * @param  {array} items - items props
- * @param  {array} itemsState - items state from parent
+ * @param  {object} itemsState - items state from parent
  *
  * @returns {React.Component}
  */
@@ -38,12 +38,6 @@ GridItems.propTypes = {
       map: PropTypes.func
     })
   ),
-  itemsState: PropTypes.arrayOf(
-    PropTypes.shape({
-      selectingEventStarted: PropTypes.bool,
-      selectingEventFirstItem: PropTypes.number,
-      selectingEventLatestItem: PropTypes.number
-    })
-  )
+  itemsState: PropTypes.object
 };
 export default GridItems;
