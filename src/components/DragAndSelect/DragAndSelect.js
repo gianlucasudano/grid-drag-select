@@ -21,7 +21,7 @@ import { itemsWithColRowRef } from "./elements/helpers";
  *
  * @returns {React.Component}
  */
-const DragAndSelect = ({ cols, items }) => {
+const DragAndSelect = ({ cols, items, itemToRender, ...rest }) => {
   const initialState = items.reduce((acc, current, index) => {
     const accItem = {
       ...current,
@@ -43,6 +43,7 @@ const DragAndSelect = ({ cols, items }) => {
       rows: adjustRowsNumber
     }),
     itemsState: state,
+    itemToRender,
     dispatch: dispatch
   };
 

@@ -29,16 +29,17 @@ import {
  * @returns {React.Component} - render a single cell on the grid
  */
 const Item = ({
+  children,
   col,
   dispatch,
   isSelected,
   items,
-  label,
   mappingIndex,
   onSelecting,
   selectingEventFirstItem,
   selectingEventLatestItem,
-  selectingEventStarted
+  selectingEventStarted,
+  ...rest
 }) => {
   const eventDetail = useRef(null);
   const isLongClick = useRef(null);
@@ -116,8 +117,9 @@ const Item = ({
       border={1}
       borderColor="grey.500"
       borderRadius="borderRadius"
+      {...rest}
     >
-      {label}
+      {children}
     </StyledItem>
   );
 };

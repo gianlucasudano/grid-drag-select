@@ -13,6 +13,8 @@ import DragAndSelect from "./components/DragAndSelect/DragAndSelect";
 const theme = createMuiTheme();
 const toMap = items(25);
 
+const SimpleLabel = ({ label, ...rest }) => <>{label}</>;
+
 export default function App() {
   return (
     <NoSsr>
@@ -21,7 +23,7 @@ export default function App() {
           <CssBaseline />
           <div className="App">
             <div id="div"></div>
-            <DragAndSelect cols={5} items={toMap} />
+            <DragAndSelect cols={5} items={toMap} itemToRender={SimpleLabel} />
           </div>
         </ThemeProvider>
       </MuiThemeProvider>

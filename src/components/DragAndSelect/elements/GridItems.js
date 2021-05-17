@@ -11,8 +11,13 @@ import Item from "./Item";
  *
  * @returns {React.Component}
  */
-const GridItems = ({ dispatch, items, itemsState }) => {
-  return items.map(({ col, itemOrder, label, row }, index) => (
+const GridItems = ({
+  dispatch,
+  items,
+  itemsState,
+  itemToRender: ItemToRender
+}) => {
+  return items.map(({ col, itemOrder, label, row, ...rest }, index) => (
     <Item
       col={col}
       dispatch={dispatch}
@@ -27,7 +32,9 @@ const GridItems = ({ dispatch, items, itemsState }) => {
       selectingEventStarted={itemsState.selectingEventStarted}
       selectingEventFirstItem={itemsState.selectingEventFirstItem}
       selectingEventLatestItem={itemsState.selectingEventLatestItem}
-    />
+    >
+      <ItemToRender label={label} {...rest} />
+    </Item>
   ));
 };
 
