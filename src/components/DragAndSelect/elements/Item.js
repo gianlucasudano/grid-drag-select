@@ -20,7 +20,6 @@ import {
  * @param  {array} props.items - all elements in the grid
  * @param  {string} props.label - label to render on item
  * @param  {number} props.mappingIndex - index from parent
- * @param  {boolean} props.onSelecting - determine if the item is involved in a "long selection"
  * @param  {number} props.row - row number
  * @param  {number} props.selectingEventFirstItem - index of first selected item
  * @param  {number} props.selectingEventLatestItem - index of latest selected item
@@ -35,11 +34,9 @@ const Item = ({
   isSelected,
   items,
   mappingIndex,
-  onSelecting,
   selectingEventFirstItem,
   selectingEventLatestItem,
-  selectingEventStarted,
-  ...rest
+  selectingEventStarted
 }) => {
   const eventDetail = useRef(null);
   const isLongClick = useRef(null);
@@ -112,12 +109,9 @@ const Item = ({
           }),
         [dispatch, mappingIndex, selectingEventFirstItem, selectingEventStarted]
       )}
-      isSelected={isSelected}
-      isSelecting={onSelecting}
       border={1}
       borderColor="grey.500"
       borderRadius="borderRadius"
-      {...rest}
     >
       {children}
     </StyledItem>
@@ -132,7 +126,6 @@ Item.propTypes = {
   items: PropTypes.array,
   label: PropTypes.string,
   mappingIndex: PropTypes.number,
-  onSelecting: PropTypes.bool,
   selectingEventFirstItem: PropTypes.number,
   selectingEventLatestItem: PropTypes.number,
   selectingEventStarted: PropTypes.bool
