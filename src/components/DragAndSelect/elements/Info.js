@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
-import { StyledInfoBox, StyledLabel } from "./InfoBox.styled";
+import InfoBox from "../../InfoBox/InfoBox";
 import postmanEchoApi from "../../../services/postmanEchoApi";
 
 /**
@@ -12,30 +12,29 @@ import postmanEchoApi from "../../../services/postmanEchoApi";
  *
  * @returns {React.Component}
  */
-const InfoBox = ({ itemsState, dispatch }) => {
+const Info = ({ itemsState, dispatch }) => {
   const { itemsChangedIndices, itemsChanged, apiResponse = {} } = itemsState;
   const { items, apiStatus, message } = apiResponse;
 
+  const infoRows = [
+    {
+      label: "Cells with changes",
+      message: itemsChanged
+    },
+    {
+      label: "Api status",
+      message: apiStatus
+    },
+    {
+      label: "Info",
+      message: items ? `Cells updates are ${items}` : message
+    }
+  ];
   useEffect(() => {
     postmanEchoApi({ data: itemsChangedIndices }, dispatch);
   }, [dispatch, itemsChangedIndices]);
 
-  return (
-    <StyledInfoBox>
-      <div>
-        <StyledLabel>Cells with changes:</StyledLabel>
-        {itemsChanged}
-      </div>
-      <div>
-        <StyledLabel>Api status: </StyledLabel>
-        {apiStatus}
-      </div>
-      <div>
-        <StyledLabel>Info: </StyledLabel>
-        {items ? `Cells updates are ${items}` : message}
-      </div>
-    </StyledInfoBox>
-  );
+  return <InfoBox infoRows={infoRows} />;
 };
 
 InfoBox.propTypes = {
@@ -51,4 +50,4 @@ InfoBox.propTypes = {
   })
 };
 
-export default InfoBox;
+export default Info;

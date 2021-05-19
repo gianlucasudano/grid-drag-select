@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 
 export const StyledInfoBox = styled.div`
-  margin-top: 18px;
-  padding: 18px 6px;
+  margin-top: ${({ theme }) => `${theme?.spacing(3)}px`};
+  padding: ${({ theme }) => `${theme?.spacing(3)}px ${theme?.spacing()}px`};
   display: flex;
   flex-flow: column;
   text-align: left;
@@ -11,4 +11,5 @@ export const StyledInfoBox = styled.div`
 
 export const StyledLabel = styled.span`
   font-weight: 700;
+  margin-right: ${({ theme }) => `${theme?.spacing()}px`};
 `;

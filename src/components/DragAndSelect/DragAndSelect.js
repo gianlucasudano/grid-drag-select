@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React, { useReducer } from "react";
 import { StyledGrid } from "./DragAndSelect.styled";
 import GridItems from "./elements/GridItems";
-import InfoBox from "./elements/InfoBox";
+import Info from "./elements/Info";
 import dragAndSelectReducer from "./reducer/dragAndSelectReducer";
 import { itemsWithColRowRef } from "./elements/helpers";
 
@@ -52,7 +52,7 @@ const DragAndSelect = ({ cols, items, itemToRender, ...rest }) => {
       <StyledGrid cols={cols} rows={adjustRowsNumber}>
         <GridItems {...gridItemsProps} />
       </StyledGrid>
-      {state.itemsChanged && <InfoBox itemsState={state} dispatch={dispatch} />}
+      {state.itemsChanged && <Info itemsState={state} dispatch={dispatch} />}
     </>
   );
 };
